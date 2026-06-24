@@ -63,10 +63,17 @@
 - [x] Add automated static smoke test for `docs/trello-live.html` extension loading.
 - [ ] Enforce workspace-level board access on `erp_records` after real login is fully live.
 
-## Phase 7 — Next implementation queue
+## Phase 7 — Invitation acceptance and migration preparation
 
 - [ ] Upgrade `erp_records` access model from compatibility mode to workspace-scoped mode.
-- [ ] Add real invitation acceptance flow from email link.
-- [ ] Add admin dashboard for user access review.
+- [x] Add real invitation acceptance flow from email link.
+- [x] Add admin dashboard for user access review.
 - [ ] Add browser-based QA automation with Playwright or equivalent.
-- [ ] Add production migration guide for switching from anonymous compatibility mode to strict login mode.
+- [x] Add production migration guide for switching from anonymous compatibility mode to strict login mode.
+
+## Phase 8 — Next implementation queue
+
+- [ ] Add browser-based QA automation.
+- [ ] Add strict access dry-run report before enabling workspace-only board records.
+- [ ] Add production migration SQL for workspace-scoped board access.
+- [ ] Add release notes page for Trello pro mode.
