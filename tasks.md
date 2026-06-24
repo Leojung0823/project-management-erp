@@ -96,9 +96,9 @@
 - [x] Add drag placeholder and drop-zone visual feedback.
 - [x] Add card actions: copy, move to list, move to top/bottom, archive.
 - [x] Add modal visual polish for a more Trello-like two-column detail layout.
-- [ ] Replace full-page reload after quick operations with live local DOM refresh.
-- [ ] Add richer card preview badges for checklist progress, labels, cover, attachments, and linked ERP task status.
-- [ ] Add mobile bottom action sheet for card/list menus.
+- [x] Replace full-page reload after quick operations with live local DOM refresh for Phase 10b quick actions.
+- [x] Add richer card preview badges for checklist progress, labels, cover, attachments, and linked ERP task status.
+- [x] Add mobile bottom action sheet for card/list menus.
 
 ## Phase 11 — Next implementation queue
 
