@@ -1,0 +1,1 @@
+full-suite v3 files added: css and app js. current entry remains docs/full-suite.html.
