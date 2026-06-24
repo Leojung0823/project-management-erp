@@ -44,11 +44,20 @@
 - [x] Update README with Trello live URL, SQL order, Storage SQL, and common errors.
 - [x] Final QA: GitHub Pages Trello URL opens, connects to Supabase, creates cards, edits modal data, exports data, and syncs ERP tasks.
 
-## Phase 5 — Next implementation queue
+## Phase 5 — Workspace, member role, and sync status foundation
 
-- [ ] Implement real workspace tables and member roles.
-- [ ] Replace front-end-only permission checks with Supabase RLS policies.
-- [ ] Add invite flow for workspace members.
-- [ ] Add scheduled due-date notification backend.
-- [ ] Add full ERP task sync status panel.
-- [ ] Add production regression test checklist for every release.
+- [x] Implement real workspace tables and member roles in `supabase/trello-workspace-schema.sql`.
+- [x] Add owner-scoped RLS policy foundation for workspace tables while keeping the live board backward compatible.
+- [x] Add invite flow for workspace members in the Trello UI extension.
+- [x] Add due-date reminder registration table and UI action for backend scheduling preparation.
+- [x] Add full ERP task sync status panel.
+- [x] Add production regression test checklist panel for every release.
+
+## Phase 6 — Next implementation queue
+
+- [ ] Upgrade from anonymous sign-in to real Email / Google login.
+- [ ] Connect workspace tables to real authenticated users and email-based invitations.
+- [ ] Enforce workspace-level board access on `erp_records` after real login is live.
+- [ ] Deploy scheduled due-date notification job.
+- [ ] Add Supabase Storage attachment delete and permission checks.
+- [ ] Add automated browser smoke test for `docs/trello-live.html`.
