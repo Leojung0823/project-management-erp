@@ -115,12 +115,24 @@
 
 ## Phase 12 — Bigger Trello gaps to close next
 
-- [ ] Add richer card detail layout: sidebar actions, activity tabs, attachment preview, checklist composer, comment editor.
+- [x] Add richer card detail layout: sidebar actions, activity tabs, attachment preview, checklist composer, comment editor.
 - [ ] Add board templates and project presets.
-- [ ] Add timeline view / Gantt-lite view.
-- [ ] Add dashboard analytics: overdue count, workload by member, completed cards, cycle time.
-- [ ] Add global inbox: assigned to me, mentioned me, due soon, recently updated.
-- [ ] Add advanced filters: no member, overdue, has attachments, no due date, label combinations.
-- [ ] Add Power-Up center for ERP modules: customers, quotations, invoices, costs, calendar.
+- [x] Add timeline view / Gantt-lite view.
+- [x] Add dashboard analytics: overdue count, workload by member, completed cards, cycle time baseline.
+- [x] Add global inbox: assigned to me, due soon, recently updated.
+- [x] Add advanced filters: no member, overdue, has attachments, no due date, label combinations baseline.
+- [x] Add Power-Up center for ERP modules: customers, quotations, invoices, costs, calendar.
 - [ ] Add import/export compatible with Trello JSON where possible.
 - [ ] Add strict access production migration only after dry-run reports are clean.
+- [x] Add Phase 12 QA guide.
+
+## Phase 13 — Next Trello parity queue
+
+- [ ] Add board templates and project presets with one-click board creation.
+- [ ] Add Trello JSON import wizard.
+- [ ] Add card dependency links and true Gantt dependency lines.
+- [ ] Add conflict resolution UI for simultaneous edits.
+- [ ] Add mentions and assigned-to-me based on authenticated profiles.
+- [ ] Add Supabase-first notifications after strict auth is live.
+- [ ] Add Playwright browser QA automation.
+- [ ] Add production smoke test into CI.
