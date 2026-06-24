@@ -3,11 +3,313 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="專案管理 ERP 系統 MVP" />
     <title>Project ERP｜專案管理系統</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --panel: #ffffff;
+        --text: #172033;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --danger: #dc2626;
+        --success: #16a34a;
+        --warning: #d97706;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      header {
+        background: linear-gradient(135deg, #0f172a, #1e3a8a);
+        color: white;
+        padding: 28px 20px 34px;
+      }
+      .wrap { max-width: 1180px; margin: 0 auto; }
+      .hero { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+      h1 { margin: 0; font-size: clamp(26px, 4vw, 42px); letter-spacing: -0.03em; }
+      .subtitle { margin-top: 10px; color: rgba(255,255,255,.78); line-height: 1.7; }
+      .badge { display: inline-flex; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.12); color: white; font-size: 13px; white-space: nowrap; }
+      main { padding: 22px 20px 60px; }
+      .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: -28px; }
+      .stat, .panel, .card, dialog { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+      .stat { padding: 18px; }
+      .stat small { display: block; color: var(--muted); margin-bottom: 8px; }
+      .stat strong { font-size: 28px; }
+      .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0; }
+      button, input, select, textarea { font: inherit; }
+      button { border: 0; border-radius: 12px; padding: 10px 14px; cursor: pointer; background: #eef2ff; color: #1e3a8a; font-weight: 700; }
+      button:hover { filter: brightness(.97); }
+      .tab.active, .primary { background: var(--primary); color: white; }
+      .primary:hover { background: var(--primary-dark); }
+      .danger { background: #fee2e2; color: var(--danger); }
+      .ghost { background: #f3f4f6; color: #344054; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .panel { padding: 18px; margin-bottom: 16px; }
+      .panel-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+      h2 { margin: 0; font-size: 20px; }
+      h3 { margin: 0 0 10px; font-size: 17px; }
+      .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .form.full { grid-template-columns: 1fr; }
+      label { display: grid; gap: 6px; color: var(--muted); font-size: 13px; }
+      input, select, textarea {
+        width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: white; color: var(--text);
+      }
+      textarea { min-height: 86px; resize: vertical; }
+      .span2 { grid-column: 1 / -1; }
+      .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .card { padding: 15px; box-shadow: none; }
+      .card-head { display: flex; justify-content: space-between; gap: 8px; align-items: start; }
+      .muted { color: var(--muted); }
+      .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      .pill { padding: 5px 9px; border-radius: 999px; background: #f2f4f7; font-size: 12px; color: #344054; }
+      .pill.green { background: #dcfce7; color: #166534; }
+      .pill.red { background: #fee2e2; color: #991b1b; }
+      .pill.yellow { background: #fef3c7; color: #92400e; }
+      .pill.blue { background: #dbeafe; color: #1e40af; }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { color: var(--muted); font-size: 13px; }
+      .kanban { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .column { background: #f8fafc; border: 1px solid var(--line); border-radius: 16px; padding: 12px; min-height: 220px; }
+      .column h3 { display: flex; justify-content: space-between; color: #344054; }
+      .task { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin: 10px 0; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+      .empty { padding: 24px; border: 1px dashed #cbd5e1; border-radius: 16px; text-align: center; color: var(--muted); }
+      .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      dialog { width: min(680px, calc(100vw - 28px)); border: 0; padding: 0; }
+      dialog::backdrop { background: rgba(15, 23, 42, .45); }
+      .dialog-inner { padding: 20px; }
+      .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+      .notice { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 12px 14px; border-radius: 14px; line-height: 1.6; }
+      @media (max-width: 900px) {
+        .stats, .grid, .cards, .kanban { grid-template-columns: 1fr; }
+        .hero { display: block; }
+        .badge { margin-top: 14px; }
+        .form { grid-template-columns: 1fr; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <header>
+      <div class="wrap hero">
+        <div>
+          <h1>Project ERP 專案管理系統</h1>
+          <div class="subtitle">可直接使用的單機 MVP：專案、任務、客戶、請款與收款追蹤。資料會存在目前瀏覽器，不需要後端。</div>
+        </div>
+        <span class="badge">GitHub Pages 單檔版｜LocalStorage</span>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="stats" id="stats"></section>
+      <nav class="tabs" id="tabs"></nav>
+      <section id="view"></section>
+    </main>
+
+    <dialog id="editDialog"><div class="dialog-inner" id="dialogContent"></div></dialog>
+
+    <script>
+      const STORAGE_KEY = 'project-management-erp-v2';
+      const money = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 });
+      const uid = () => Math.random().toString(36).slice(2, 9);
+      const today = () => new Date().toISOString().slice(0, 10);
+
+      const seed = {
+        projects: [
+          { id: 'p1', name: '官方網站改版', client: '嗡嗡行銷', owner: 'Leo', status: '進行中', start: today(), due: '2026-07-15', budget: 180000, note: '首頁、服務頁、案例頁、聯絡表單' },
+          { id: 'p2', name: 'ERP 系統 MVP', client: '內部專案', owner: 'Leo', status: '規劃中', start: today(), due: '2026-08-01', budget: 300000, note: '先做專案、任務、客戶與收款管理' }
+        ],
+        tasks: [
+          { id: 't1', projectId: 'p1', title: '確認網站架構', assignee: 'Leo', status: 'done', priority: '高', due: today(), note: '完成 sitemap' },
+          { id: 't2', projectId: 'p1', title: '首頁文案初稿', assignee: '設計部', status: 'doing', priority: '中', due: '2026-06-30', note: '需符合品牌口吻' },
+          { id: 't3', projectId: 'p2', title: '建立可用版資料表', assignee: 'PM', status: 'todo', priority: '高', due: '2026-07-05', note: '後續接 Supabase' }
+        ],
+        customers: [
+          { id: 'c1', name: '嗡嗡行銷', contact: 'Leo', phone: '', email: 'buzzdesign2023@gmail.com', level: 'A', note: '內部示範客戶' }
+        ],
+        invoices: [
+          { id: 'i1', projectId: 'p1', title: '網站改版第一期', amount: 60000, status: '待請款', due: '2026-07-01', note: '簽約後請款' }
+        ]
+      };
+
+      let state = load();
+      let active = 'dashboard';
+
+      function load() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : structuredClone(seed);
+        } catch (e) {
+          return structuredClone(seed);
+        }
+      }
+      function save() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        render();
+      }
+      function projectName(id) {
+        return state.projects.find(p => p.id === id)?.name || '未指定專案';
+      }
+      function statusPill(status) {
+        const map = { '進行中': 'blue', '已完成': 'green', '暫停': 'yellow', '規劃中': '', '已收款': 'green', '待請款': 'yellow', '已開發票': 'blue', '逾期': 'red' };
+        return `<span class="pill ${map[status] || ''}">${status}</span>`;
+      }
+      function taskStatusLabel(status) {
+        return { todo: '待辦', doing: '進行中', done: '完成' }[status] || status;
+      }
+      function taskStatusPill(status) {
+        return `<span class="pill ${status === 'done' ? 'green' : status === 'doing' ? 'blue' : ''}">${taskStatusLabel(status)}</span>`;
+      }
+
+      function render() {
+        renderStats();
+        renderTabs();
+        const view = document.getElementById('view');
+        if (active === 'dashboard') view.innerHTML = dashboard();
+        if (active === 'projects') view.innerHTML = projectsView();
+        if (active === 'tasks') view.innerHTML = tasksView();
+        if (active === 'customers') view.innerHTML = customersView();
+        if (active === 'finance') view.innerHTML = financeView();
+        bindForms();
+      }
+
+      function renderStats() {
+        const totalBudget = state.projects.reduce((s,p) => s + Number(p.budget || 0), 0);
+        const receivable = state.invoices.filter(i => i.status !== '已收款').reduce((s,i) => s + Number(i.amount || 0), 0);
+        const doneTasks = state.tasks.filter(t => t.status === 'done').length;
+        const stats = [
+          ['專案數', state.projects.length],
+          ['任務完成', `${doneTasks}/${state.tasks.length}`],
+          ['專案預算', money.format(totalBudget)],
+          ['待收款', money.format(receivable)]
+        ];
+        document.getElementById('stats').innerHTML = stats.map(([k,v]) => `<div class="stat"><small>${k}</small><strong>${v}</strong></div>`).join('');
+      }
+
+      function renderTabs() {
+        const tabs = [
+          ['dashboard', '儀表板'], ['projects', '專案'], ['tasks', '任務'], ['customers', '客戶'], ['finance', '財務']
+        ];
+        document.getElementById('tabs').innerHTML = tabs.map(([id,label]) => `<button class="tab ${active === id ? 'active' : ''}" onclick="active='${id}';render()">${label}</button>`).join('') +
+          `<button class="ghost" onclick="exportData()">匯出備份</button><button class="ghost" onclick="importData()">匯入備份</button><button class="danger" onclick="resetData()">重置範例</button>`;
+      }
+
+      function dashboard() {
+        const recentTasks = state.tasks.slice(0, 6).map(taskCard).join('') || '<div class="empty">目前沒有任務</div>';
+        const upcoming = [...state.projects].sort((a,b) => String(a.due).localeCompare(String(b.due))).slice(0, 4).map(projectCard).join('');
+        return `<div class="grid"><section class="panel"><div class="panel-title"><h2>近期專案</h2><button class="primary" onclick="active='projects';render()">新增專案</button></div>${upcoming || '<div class="empty">尚無專案</div>'}</section><section class="panel"><div class="panel-title"><h2>任務摘要</h2><button class="primary" onclick="active='tasks';render()">新增任務</button></div>${recentTasks}</section></div><div class="notice">目前是單機版：資料存在你的瀏覽器。換電腦或清除瀏覽資料會看不到，所以重要資料請定期按「匯出備份」。</div>`;
+      }
+
+      function projectsView() {
+        return `<section class="panel"><div class="panel-title"><h2>新增專案</h2></div>${projectForm()}</section><section class="panel"><div class="panel-title"><h2>專案列表</h2></div><div class="cards">${state.projects.map(projectCard).join('') || '<div class="empty">尚無專案</div>'}</div></section>`;
+      }
+      function projectForm(p = {}) {
+        return `<form class="form" data-form="project"><input type="hidden" name="id" value="${p.id || ''}"><label>專案名稱<input required name="name" value="${p.name || ''}"></label><label>客戶<input name="client" value="${p.client || ''}"></label><label>負責人<input name="owner" value="${p.owner || ''}"></label><label>狀態<select name="status"><option>規劃中</option><option>進行中</option><option>暫停</option><option>已完成</option></select></label><label>開始日<input type="date" name="start" value="${p.start || today()}"></label><label>截止日<input type="date" name="due" value="${p.due || today()}"></label><label>預算<input type="number" name="budget" value="${p.budget || 0}"></label><label class="span2">備註<textarea name="note">${p.note || ''}</textarea></label><div class="span2"><button class="primary">${p.id ? '儲存專案' : '新增專案'}</button></div></form>`;
+      }
+      function projectCard(p) {
+        const count = state.tasks.filter(t => t.projectId === p.id).length;
+        return `<article class="card"><div class="card-head"><div><h3>${p.name}</h3><div class="muted">${p.client || '未填客戶'}｜${p.owner || '未填負責人'}</div></div>${statusPill(p.status)}</div><div class="meta"><span class="pill">截止 ${p.due || '-'}</span><span class="pill">任務 ${count}</span><span class="pill">${money.format(Number(p.budget || 0))}</span></div><p class="muted">${p.note || ''}</p><div class="actions"><button onclick="editProject('${p.id}')">編輯</button><button class="danger" onclick="deleteProject('${p.id}')">刪除</button></div></article>`;
+      }
+
+      function tasksView() {
+        const columns = [['todo','待辦'], ['doing','進行中'], ['done','完成']];
+        return `<section class="panel"><div class="panel-title"><h2>新增任務</h2></div>${taskForm()}</section><section class="panel"><div class="panel-title"><h2>任務看板</h2></div><div class="kanban">${columns.map(([id,label]) => `<div class="column"><h3>${label}<span>${state.tasks.filter(t=>t.status===id).length}</span></h3>${state.tasks.filter(t=>t.status===id).map(taskCard).join('') || '<div class="empty">沒有任務</div>'}</div>`).join('')}</div></section>`;
+      }
+      function taskForm(t = {}) {
+        const opts = state.projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        return `<form class="form" data-form="task"><input type="hidden" name="id" value="${t.id || ''}"><label>任務名稱<input required name="title" value="${t.title || ''}"></label><label>專案<select name="projectId">${opts}</select></label><label>負責人<input name="assignee" value="${t.assignee || ''}"></label><label>狀態<select name="status"><option value="todo">待辦</option><option value="doing">進行中</option><option value="done">完成</option></select></label><label>優先級<select name="priority"><option>高</option><option>中</option><option>低</option></select></label><label>截止日<input type="date" name="due" value="${t.due || today()}"></label><label class="span2">備註<textarea name="note">${t.note || ''}</textarea></label><div class="span2"><button class="primary">${t.id ? '儲存任務' : '新增任務'}</button></div></form>`;
+      }
+      function taskCard(t) {
+        return `<article class="task"><div class="card-head"><div><strong>${t.title}</strong><div class="muted">${projectName(t.projectId)}｜${t.assignee || '未指派'}</div></div>${taskStatusPill(t.status)}</div><div class="meta"><span class="pill ${t.priority === '高' ? 'red' : t.priority === '中' ? 'yellow' : ''}">${t.priority || '中'}</span><span class="pill">${t.due || '-'}</span></div><p class="muted">${t.note || ''}</p><div class="actions"><button onclick="moveTask('${t.id}','todo')">待辦</button><button onclick="moveTask('${t.id}','doing')">進行中</button><button onclick="moveTask('${t.id}','done')">完成</button><button onclick="editTask('${t.id}')">編輯</button><button class="danger" onclick="deleteTask('${t.id}')">刪除</button></div></article>`;
+      }
+
+      function customersView() {
+        return `<section class="panel"><div class="panel-title"><h2>新增客戶</h2></div>${customerForm()}</section><section class="panel"><div class="panel-title"><h2>客戶資料</h2></div><table><thead><tr><th>客戶</th><th>聯絡人</th><th>聯絡方式</th><th>等級</th><th>備註</th><th>操作</th></tr></thead><tbody>${state.customers.map(c => `<tr><td><strong>${c.name}</strong></td><td>${c.contact || ''}</td><td>${c.phone || ''}<br>${c.email || ''}</td><td>${c.level || ''}</td><td>${c.note || ''}</td><td><button onclick="editCustomer('${c.id}')">編輯</button> <button class="danger" onclick="deleteCustomer('${c.id}')">刪除</button></td></tr>`).join('')}</tbody></table></section>`;
+      }
+      function customerForm(c = {}) {
+        return `<form class="form" data-form="customer"><input type="hidden" name="id" value="${c.id || ''}"><label>客戶名稱<input required name="name" value="${c.name || ''}"></label><label>聯絡人<input name="contact" value="${c.contact || ''}"></label><label>電話<input name="phone" value="${c.phone || ''}"></label><label>Email<input type="email" name="email" value="${c.email || ''}"></label><label>等級<select name="level"><option>A</option><option>B</option><option>C</option></select></label><label class="span2">備註<textarea name="note">${c.note || ''}</textarea></label><div class="span2"><button class="primary">${c.id ? '儲存客戶' : '新增客戶'}</button></div></form>`;
+      }
+
+      function financeView() {
+        return `<section class="panel"><div class="panel-title"><h2>新增帳款</h2></div>${invoiceForm()}</section><section class="panel"><div class="panel-title"><h2>請款 / 收款列表</h2></div><table><thead><tr><th>項目</th><th>專案</th><th>金額</th><th>狀態</th><th>到期日</th><th>操作</th></tr></thead><tbody>${state.invoices.map(i => `<tr><td><strong>${i.title}</strong><div class="muted">${i.note || ''}</div></td><td>${projectName(i.projectId)}</td><td>${money.format(Number(i.amount || 0))}</td><td>${statusPill(i.status)}</td><td>${i.due || ''}</td><td><button onclick="editInvoice('${i.id}')">編輯</button> <button class="danger" onclick="deleteInvoice('${i.id}')">刪除</button></td></tr>`).join('')}</tbody></table></section>`;
+      }
+      function invoiceForm(i = {}) {
+        const opts = state.projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        return `<form class="form" data-form="invoice"><input type="hidden" name="id" value="${i.id || ''}"><label>帳款名稱<input required name="title" value="${i.title || ''}"></label><label>專案<select name="projectId">${opts}</select></label><label>金額<input type="number" name="amount" value="${i.amount || 0}"></label><label>狀態<select name="status"><option>待請款</option><option>已開發票</option><option>已收款</option><option>逾期</option></select></label><label>到期日<input type="date" name="due" value="${i.due || today()}"></label><label class="span2">備註<textarea name="note">${i.note || ''}</textarea></label><div class="span2"><button class="primary">${i.id ? '儲存帳款' : '新增帳款'}</button></div></form>`;
+      }
+
+      function bindForms() {
+        document.querySelectorAll('form[data-form]').forEach(form => {
+          form.addEventListener('submit', e => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+            const type = form.dataset.form;
+            if (type === 'project') upsert('projects', { ...data, id: data.id || uid(), budget: Number(data.budget || 0) });
+            if (type === 'task') upsert('tasks', { ...data, id: data.id || uid() });
+            if (type === 'customer') upsert('customers', { ...data, id: data.id || uid() });
+            if (type === 'invoice') upsert('invoices', { ...data, id: data.id || uid(), amount: Number(data.amount || 0) });
+            closeDialog();
+            save();
+          });
+          const values = Object.fromEntries(new FormData(form).entries());
+          form.querySelectorAll('select').forEach(s => { if (values[s.name]) s.value = values[s.name]; });
+        });
+      }
+      function upsert(collection, item) {
+        const index = state[collection].findIndex(x => x.id === item.id);
+        if (index >= 0) state[collection][index] = item; else state[collection].unshift(item);
+      }
+      function remove(collection, id) {
+        state[collection] = state[collection].filter(x => x.id !== id);
+      }
+      function openDialog(title, html) {
+        document.getElementById('dialogContent').innerHTML = `<div class="panel-title"><h2>${title}</h2><button class="ghost" onclick="closeDialog()">關閉</button></div>${html}`;
+        document.getElementById('editDialog').showModal();
+        bindForms();
+      }
+      function closeDialog() { document.getElementById('editDialog').close(); }
+
+      window.editProject = id => openDialog('編輯專案', projectForm(state.projects.find(p=>p.id===id)));
+      window.deleteProject = id => { if(confirm('刪除專案會一併刪除相關任務與帳款，確定嗎？')) { remove('projects', id); state.tasks = state.tasks.filter(t=>t.projectId!==id); state.invoices = state.invoices.filter(i=>i.projectId!==id); save(); } };
+      window.editTask = id => openDialog('編輯任務', taskForm(state.tasks.find(t=>t.id===id)));
+      window.deleteTask = id => { if(confirm('確定刪除任務？')) { remove('tasks', id); save(); } };
+      window.moveTask = (id, status) => { const t = state.tasks.find(x=>x.id===id); if(t) { t.status = status; save(); } };
+      window.editCustomer = id => openDialog('編輯客戶', customerForm(state.customers.find(c=>c.id===id)));
+      window.deleteCustomer = id => { if(confirm('確定刪除客戶？')) { remove('customers', id); save(); } };
+      window.editInvoice = id => openDialog('編輯帳款', invoiceForm(state.invoices.find(i=>i.id===id)));
+      window.deleteInvoice = id => { if(confirm('確定刪除帳款？')) { remove('invoices', id); save(); } };
+      window.exportData = () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `project-erp-backup-${today()}.json`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      };
+      window.importData = () => {
+        const input = document.createElement('input');
+        input.type = 'file'; input.accept = '.json,application/json';
+        input.onchange = () => {
+          const file = input.files[0]; if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            try { state = JSON.parse(reader.result); save(); alert('匯入完成'); }
+            catch(e) { alert('匯入失敗，檔案格式不正確'); }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      };
+      window.resetData = () => { if(confirm('確定重置成範例資料？目前瀏覽器資料會被覆蓋。')) { state = structuredClone(seed); save(); } };
+
+      render();
+    </script>
   </body>
 </html>
