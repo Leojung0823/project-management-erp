@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project ERP｜專案管理系統</title>
+  <style>
+    :root{--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#697386;--line:#dde4ef;--brand:#2563eb;--ok:#16a34a;--warn:#f59e0b;--danger:#dc2626;--soft:#eff6ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif}.app{max-width:1180px;margin:auto;padding:24px}.top{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:18px}.brand h1{margin:0;font-size:28px}.brand p{margin:6px 0 0;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn.danger{background:#fff;color:var(--danger)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;cursor:pointer;color:var(--muted);font-weight:700}.tab.active{background:var(--brand);border-color:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 8px 22px rgba(16,24,40,.04)}.kpi .label{color:var(--muted);font-size:13px}.kpi .value{font-size:28px;font-weight:900;margin-top:8px}.layout{display:grid;grid-template-columns:360px 1fr;gap:14px}.form{display:grid;gap:10px}label{font-size:13px;color:var(--muted);font-weight:700}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;background:#fff}textarea{min-height:72px;resize:vertical}.list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}.item-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.item h3{margin:0 0 4px;font-size:17px}.meta{color:var(--muted);font-size:13px;line-height:1.6}.pill{display:inline-flex;align-items:center;border-radius:999px;background:var(--soft);color:var(--brand);font-size:12px;font-weight:800;padding:5px 9px}.pill.ok{background:#dcfce7;color:var(--ok)}.pill.warn{background:#fef3c7;color:var(--warn)}.pill.danger{background:#fee2e2;color:var(--danger)}.mini{font-size:12px;padding:7px 9px;border-radius:10px}.empty{padding:30px;border:1px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);background:#fff}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint{font-size:13px;color:var(--muted);line-height:1.7}.footer{margin-top:20px;color:var(--muted);font-size:13px}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}@media(max-width:560px){.app{padding:14px}.grid{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="top">
+      <div class="brand">
+        <h1>Project ERP｜專案管理系統</h1>
+        <p>專案、任務、客戶、請款一次管理。資料會先存在目前瀏覽器，可立即使用。</p>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="exportData()">匯出備份</button>
+        <button class="btn" onclick="document.getElementById('importFile').click()">匯入備份</button>
+        <input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)">
+        <button class="btn danger" onclick="resetDemo()">重置示範資料</button>
+      </div>
+    </section>
+
+    <section class="grid" id="kpis"></section>
+    <nav class="tabs" id="tabs"></nav>
+    <section id="view"></section>
+    <p class="footer">MVP 版本：目前使用 localStorage。正式多人 ERP 下一步需接 Supabase / PostgreSQL、登入、權限與雲端資料庫。</p>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'project-erp-v1';
+    const tabs = [
+      ['dashboard','儀表板'],['projects','專案'],['tasks','任務'],['clients','客戶'],['invoices','帳款']
+    ];
+    let state = load();
+    let active = 'dashboard';
+
+    function uid(prefix){return prefix + '-' + Math.random().toString(36).slice(2,8) + Date.now().toString(36).slice(-4)}
+    function money(n){return 'NT$ ' + Number(n||0).toLocaleString('zh-TW')}
+    function today(){return new Date().toISOString().slice(0,10)}
+    function save(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render()}
+    function load(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){try{return JSON.parse(raw)}catch(e){}}
+      return seed();
+    }
+    function seed(){return {
+      projects:[
+        {id:uid('p'),name:'品牌官網改版',client:'迎暉光電',owner:'Leo',status:'進行中',budget:180000,deadline:'2026-07-20',note:'首頁、產品頁、詢價表單'},
+        {id:uid('p'),name:'辦公室裝修管理',client:'內部專案',owner:'Leo',status:'規劃中',budget:850000,deadline:'2026-08-15',note:'天花板、照明、消防、弱電、廁所'}
+      ],
+      tasks:[
+        {id:uid('t'),title:'確認網站主視覺方向',project:'品牌官網改版',owner:'設計',status:'待辦',due:'2026-06-28'},
+        {id:uid('t'),title:'整理裝修預算表',project:'辦公室裝修管理',owner:'行政',status:'進行中',due:'2026-06-30'}
+      ],
+      clients:[
+        {id:uid('c'),name:'迎暉光電股份有限公司',contact:'採購窗口',phone:'',email:'',note:'材料與官網需求'},
+        {id:uid('c'),name:'內部專案',contact:'Leo',phone:'',email:'',note:'公司內部管理'}
+      ],
+      invoices:[
+        {id:uid('i'),title:'官網設計首付款',client:'迎暉光電',project:'品牌官網改版',amount:60000,status:'未請款',due:'2026-07-05'},
+        {id:uid('i'),title:'裝修第一期工程款',client:'內部專案',project:'辦公室裝修管理',amount:250000,status:'待付款',due:'2026-07-10'}
+      ]}}
+
+    function render(){renderTabs();renderKpis();document.getElementById('view').innerHTML = views[active]();}
+    function renderTabs(){document.getElementById('tabs').innerHTML = tabs.map(([id,label])=>`<button class="tab ${active===id?'active':''}" onclick="active='${id}';render()">${label}</button>`).join('')}
+    function renderKpis(){
+      const income = state.invoices.filter(i=>i.status==='已收款').reduce((s,i)=>s+Number(i.amount||0),0);
+      const receivable = state.invoices.filter(i=>i.status!=='已收款').reduce((s,i)=>s+Number(i.amount||0),0);
+      const doing = state.tasks.filter(t=>t.status==='進行中').length;
+      document.getElementById('kpis').innerHTML = [
+        ['專案數',state.projects.length],['進行中任務',doing],['已收款',money(income)],['待收款',money(receivable)]
+      ].map(([l,v])=>`<div class="card kpi"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('')
+    }
+    function pill(status){const cls = status==='已完成'||status==='已收款'?'ok':status==='逾期'||status==='停滯'?'danger':status==='待付款'||status==='進行中'?'warn':'';return `<span class="pill ${cls}">${status}</span>`}
+    function remove(type,id){if(confirm('確定刪除？')){state[type]=state[type].filter(x=>x.id!==id);save()}}
+    function setStatus(type,id,status){state[type]=state[type].map(x=>x.id===id?{...x,status}:x);save()}
+
+    const views = {
+      dashboard(){return `<div class="layout"><div class="card"><h2>今日重點</h2><p class="hint">這版已經可以新增、刪除、改狀態、匯出/匯入備份。正式版再接雲端資料庫與登入權限。</p><button class="btn primary" onclick="active='projects';render()">新增第一個正式專案</button></div><div class="card"><h2>近期任務</h2><div class="list">${state.tasks.slice(0,6).map(taskItem).join('')||empty('還沒有任務')}</div></div></div>`},
+      projects(){return `<div class="layout"><div class="card"><h2>新增專案</h2>${projectForm()}</div><div class="card"><h2>專案列表</h2><div class="list">${state.projects.map(projectItem).join('')||empty('還沒有專案')}</div></div></div>`},
+      tasks(){return `<div class="layout"><div class="card"><h2>新增任務</h2>${taskForm()}</div><div class="card"><h2>任務看板</h2><div class="list">${state.tasks.map(taskItem).join('')||empty('還沒有任務')}</div></div></div>`},
+      clients(){return `<div class="layout"><div class="card"><h2>新增客戶</h2>${clientForm()}</div><div class="card"><h2>客戶資料</h2><div class="list">${state.clients.map(clientItem).join('')||empty('還沒有客戶')}</div></div></div>`},
+      invoices(){return `<div class="layout"><div class="card"><h2>新增帳款</h2>${invoiceForm()}</div><div class="card"><h2>帳款列表</h2><div class="list">${state.invoices.map(invoiceItem).join('')||empty('還沒有帳款')}</div></div></div>`}
+    }
+    function empty(text){return `<div class="empty">${text}</div>`}
+    function projectForm(){return `<form class="form" onsubmit="addProject(event)"><label>專案名稱<input name="name" required></label><div class="two"><label>客戶<input name="client"></label><label>負責人<input name="owner"></label></div><div class="two"><label>狀態<select name="status"><option>規劃中</option><option>進行中</option><option>已完成</option><option>停滯</option></select></label><label>預算<input name="budget" type="number" min="0"></label></div><label>期限<input name="deadline" type="date" value="${today()}"></label><label>備註<textarea name="note"></textarea></label><button class="btn primary">新增專案</button></form>`}
+    function taskForm(){return `<form class="form" onsubmit="addTask(event)"><label>任務名稱<input name="title" required></label><div class="two"><label>專案<input name="project" list="projectNames"></label><label>負責人<input name="owner"></label></div>${projectDatalist()}<div class="two"><label>狀態<select name="status"><option>待辦</option><option>進行中</option><option>已完成</option></select></label><label>期限<input name="due" type="date" value="${today()}"></label></div><button class="btn primary">新增任務</button></form>`}
+    function clientForm(){return `<form class="form" onsubmit="addClient(event)"><label>客戶名稱<input name="name" required></label><div class="two"><label>聯絡人<input name="contact"></label><label>電話<input name="phone"></label></div><label>Email<input name="email" type="email"></label><label>備註<textarea name="note"></textarea></label><button class="btn primary">新增客戶</button></form>`}
+    function invoiceForm(){return `<form class="form" onsubmit="addInvoice(event)"><label>帳款名稱<input name="title" required></label><div class="two"><label>客戶<input name="client"></label><label>專案<input name="project" list="projectNames"></label></div>${projectDatalist()}<div class="two"><label>金額<input name="amount" type="number" min="0" required></label><label>狀態<select name="status"><option>未請款</option><option>待付款</option><option>已收款</option><option>逾期</option></select></label></div><label>到期日<input name="due" type="date" value="${today()}"></label><button class="btn primary">新增帳款</button></form>`}
+    function projectDatalist(){return `<datalist id="projectNames">${state.projects.map(p=>`<option value="${p.name}">`).join('')}</datalist>`}
+    function projectItem(p){return `<article class="item"><div class="item-head"><div><h3>${p.name}</h3><div class="meta">客戶：${p.client||'-'}｜負責：${p.owner||'-'}｜期限：${p.deadline||'-'}｜預算：${money(p.budget)}</div><div class="meta">${p.note||''}</div></div>${pill(p.status)}</div><div class="actions"><button class="btn mini" onclick="setStatus('projects','${p.id}','進行中')">進行中</button><button class="btn mini" onclick="setStatus('projects','${p.id}','已完成')">完成</button><button class="btn mini danger" onclick="remove('projects','${p.id}')">刪除</button></div></article>`}
+    function taskItem(t){return `<article class="item"><div class="item-head"><div><h3>${t.title}</h3><div class="meta">專案：${t.project||'-'}｜負責：${t.owner||'-'}｜期限：${t.due||'-'}</div></div>${pill(t.status)}</div><div class="actions"><button class="btn mini" onclick="setStatus('tasks','${t.id}','待辦')">待辦</button><button class="btn mini" onclick="setStatus('tasks','${t.id}','進行中')">進行中</button><button class="btn mini" onclick="setStatus('tasks','${t.id}','已完成')">完成</button><button class="btn mini danger" onclick="remove('tasks','${t.id}')">刪除</button></div></article>`}
+    function clientItem(c){return `<article class="item"><div class="item-head"><div><h3>${c.name}</h3><div class="meta">聯絡人：${c.contact||'-'}｜電話：${c.phone||'-'}｜Email：${c.email||'-'}</div><div class="meta">${c.note||''}</div></div></div><div class="actions"><button class="btn mini danger" onclick="remove('clients','${c.id}')">刪除</button></div></article>`}
+    function invoiceItem(i){return `<article class="item"><div class="item-head"><div><h3>${i.title}</h3><div class="meta">客戶：${i.client||'-'}｜專案：${i.project||'-'}｜到期：${i.due||'-'}</div><div class="meta">金額：<b>${money(i.amount)}</b></div></div>${pill(i.status)}</div><div class="actions"><button class="btn mini" onclick="setStatus('invoices','${i.id}','待付款')">待付款</button><button class="btn mini" onclick="setStatus('invoices','${i.id}','已收款')">已收款</button><button class="btn mini danger" onclick="remove('invoices','${i.id}')">刪除</button></div></article>`}
+    function formData(e){const fd=new FormData(e.target);return Object.fromEntries(fd.entries())}
+    function addProject(e){e.preventDefault();state.projects.unshift({id:uid('p'),...formData(e)});e.target.reset();save()}
+    function addTask(e){e.preventDefault();state.tasks.unshift({id:uid('t'),...formData(e)});e.target.reset();save()}
+    function addClient(e){e.preventDefault();state.clients.unshift({id:uid('c'),...formData(e)});e.target.reset();save()}
+    function addInvoice(e){e.preventDefault();state.invoices.unshift({id:uid('i'),...formData(e)});e.target.reset();save()}
+    function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='project-erp-backup.json';a.click();URL.revokeObjectURL(a.href)}
+    function importData(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{state=JSON.parse(reader.result);save();alert('匯入完成')}catch(err){alert('匯入失敗，請確認 JSON 格式')}};reader.readAsText(file)}
+    function resetDemo(){if(confirm('會清除目前瀏覽器資料並恢復示範資料，確定？')){state=seed();save()}}
+    render();
+  </script>
+</body>
+</html>
