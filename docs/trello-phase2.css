@@ -1,0 +1,11 @@
+.phase2-quick{display:grid;gap:8px;margin:10px 0 4px;padding:10px;border:1px dashed rgba(148,163,184,.7);border-radius:12px;background:rgba(255,255,255,.55)}
+.phase2-quick textarea{width:100%;min-height:56px;resize:vertical;border:1px solid #d0d7e2;border-radius:10px;padding:9px;background:#fff;font:inherit}
+.phase2-quick textarea:focus{outline:none;border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.22)}
+.phase2-drop-hover{outline:3px solid rgba(37,99,235,.35);outline-offset:4px;border-radius:14px;background:rgba(219,234,254,.75)!important}
+.phase2-archive-list{font-size:12px;min-width:auto;padding:3px 6px}
+.phase2-panel{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;justify-content:flex-end;backdrop-filter:blur(4px)}
+.phase2-box{width:min(440px,94vw);height:100%;background:#f8fafc;color:#0f172a;box-shadow:-20px 0 45px rgba(15,23,42,.25);padding:18px;overflow:auto}
+.phase2-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.phase2-head b{font-size:22px}
+.phase2-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #dbe4f0;border-radius:14px;background:#fff;margin-bottom:10px;box-shadow:0 6px 16px rgba(15,23,42,.06)}
+.phase2-row small{display:block;color:#64748b;margin-top:4px}
