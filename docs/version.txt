@@ -1,3 +1,4 @@
-supabase-setup-2026-06-24-3
+supabase-only-2026-06-24-1
 GitHub Pages source: main / docs
-Actions Pages workflow disabled.
+Local ERP data mode disabled.
+All business data must use Supabase.
