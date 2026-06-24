@@ -87,8 +87,24 @@
 - [x] Add release notes page for Trello pro mode.
 - [ ] Add browser-based QA automation.
 
-## Phase 10 — Next implementation queue
+## Phase 10 — Trello feel polish
 
+- [x] Add Trello-like board background, list styling, card shadows, spacing, hover states, and mobile board scrolling.
+- [x] Add card hover quick actions for quick title edit and card menu.
+- [x] Add list more menu for add card, copy list, rename list, and archive list entry point.
+- [x] Add Trello-style composer and keyboard shortcuts `/` search and `n` new card.
+- [x] Add drag placeholder and drop-zone visual feedback.
+- [x] Add card actions: copy, move to list, move to top/bottom, archive.
+- [x] Add modal visual polish for a more Trello-like two-column detail layout.
+- [ ] Replace full-page reload after quick operations with live local DOM refresh.
+- [ ] Add richer card preview badges for checklist progress, labels, cover, attachments, and linked ERP task status.
+- [ ] Add mobile bottom action sheet for card/list menus.
+
+## Phase 11 — Next implementation queue
+
+- [ ] Add Supabase Realtime board updates.
+- [ ] Add Butler-lite automation rules.
+- [ ] Add formal notification center.
 - [ ] Add strict access production migration only after dry-run reports are clean.
 - [ ] Add browser-based QA automation.
 - [ ] Add release smoke checklist into CI.
