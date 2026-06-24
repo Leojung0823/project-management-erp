@@ -24,6 +24,12 @@ Trello-like 看板入口：
 https://leojung0823.github.io/project-management-erp/trello-live.html
 ```
 
+目前 release notes：
+
+```text
+https://leojung0823.github.io/project-management-erp/trello-release-notes.html
+```
+
 如果 GitHub Pages 快取未更新，可以使用：
 
 ```text
@@ -45,6 +51,9 @@ Trello 模式目前支援：
 - 附件規劃
 - 匯出
 - ERP 任務同步規劃
+- strict access dry-run report
+- release notes page
+- rollback SQL draft
 
 ## Production 文件
 
@@ -57,6 +66,9 @@ docs/trello-storage-qa.md
 docs/trello-permission-plan.md
 docs/notification-plan.md
 docs/trello-erp-sync.md
+docs/trello-release-notes.md
+docs/trello-release-notes.html
+docs/trello-strict-access-rollback.md
 ```
 
 ## 線上使用
@@ -108,9 +120,20 @@ supabase/full-suite-enterprise-schema.sql
 supabase/full-suite-reporting-views.sql
 supabase/full-suite-v3-hotfix.sql
 supabase/trello-storage.sql
+supabase/trello-workspace-schema.sql
+supabase/trello-auth-schema.sql
 ```
 
 `supabase/full-suite-schema.sql` 與 `supabase/trello-storage.sql` 已調整為可重複執行版本。
+
+strict workspace-only access 尚未啟用。先使用 Trello 頁面的 strict dry-run report 確認無阻擋風險，再考慮正式 migration。
+
+如果未來 strict access migration 造成使用者看不到看板，可參考：
+
+```text
+docs/trello-strict-access-rollback.md
+supabase/trello-strict-access-rollback.sql
+```
 
 ## 本機執行
 
