@@ -71,9 +71,18 @@
 - [ ] Add browser-based QA automation with Playwright or equivalent.
 - [x] Add production migration guide for switching from anonymous compatibility mode to strict login mode.
 
-## Phase 8 — Next implementation queue
+## Phase 8 — Strict access dry-run
 
 - [ ] Add browser-based QA automation.
-- [ ] Add strict access dry-run report before enabling workspace-only board records.
+- [x] Add strict access dry-run report before enabling workspace-only board records.
+- [x] Add dry-run export for board access warnings.
+- [x] Add dry-run guide document.
 - [ ] Add production migration SQL for workspace-scoped board access.
 - [ ] Add release notes page for Trello pro mode.
+
+## Phase 9 — Next implementation queue
+
+- [ ] Add production migration SQL after dry-run reports are clean.
+- [ ] Add rollback SQL for access migration.
+- [ ] Add release notes page for Trello pro mode.
+- [ ] Add browser-based QA automation.
