@@ -1,0 +1,26 @@
+window.TRELLO={};
+(()=>{
+const A=window.TRELLO;
+A.VERSION='trello-2026-06-24-1';
+A.BOARD_MODULE='trello_boards';
+A.BOARD_TITLE='PM ERP Trello Board';
+A.COLORS={blue:'#2563eb',green:'#16a34a',yellow:'#d97706',red:'#dc2626',purple:'#7c3aed',gray:'#64748b'};
+A.S={sb:null,ok:false,board:null,drag:null,open:null,notice:'正在連線 Supabase...',search:''};
+A.$=s=>document.querySelector(s);
+A.$$=s=>Array.from(document.querySelectorAll(s));
+A.h=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+A.uid=()=>crypto.randomUUID?crypto.randomUUID():'id_'+Date.now()+Math.random().toString(16).slice(2);
+A.today=()=>new Date().toISOString().slice(0,10);
+A.list=t=>({id:A.uid(),title:t,cards:[]});
+A.card=t=>({id:A.uid(),title:t,desc:'',labels:[],members:[],due:'',checklist:[],comments:[],createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+A.defaultLabels=()=>[['blue','設計'],['green','已確認'],['yellow','待回覆'],['red','急件'],['purple','財務'],['gray','內部']].map(([color,name])=>({id:A.uid(),color,name}));
+A.blankBoard=()=>({title:'PM ERP 看板',members:['Leo','PM','設計','業務','財務'],labels:A.defaultLabels(),lists:[A.list('待辦'),A.list('進行中'),A.list('待確認'),A.list('完成')]});
+A.findList=id=>A.S.board.lists.find(l=>l.id===id);
+A.findCard=id=>{for(const l of A.S.board.lists){const c=l.cards.find(x=>x.id===id);if(c)return{card:c,list:l}}return{}};
+A.init=async()=>{document.body.innerHTML='<div id="app"></div>';A.render();try{const cfg=await A.readCfg();await A.connect(cfg);await A.loadBoard();A.toast('Supabase 已連線，Trello 看板模式已啟動')}catch(e){A.S.notice='Supabase 尚未連線：'+e.message;A.S.ok=false;A.render()}};
+A.readCfg=async()=>{const txt=await fetch('supabase-default.js?v='+A.VERSION).then(r=>{if(!r.ok)throw Error('找不到 supabase-default.js');return r.text()});const url=(txt.match(/url:\s*'([^']+)'/)||[])[1];const p=(txt.match(/key:\s*'([^']+)'\s*\+/)||[])[1]||'';const q=(txt.match(/\+\s*'([^']+)'/)||[])[1]||'';const key=p+q;if(!url||!key)throw Error('Supabase 預設設定不完整');return{url,key}};
+A.connect=async c=>{if(!window.supabase)throw Error('Supabase SDK 未載入');A.S.sb=window.supabase.createClient(c.url,c.key,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});const s=await A.S.sb.auth.getSession();if(!s.data.session){const anon=await A.S.sb.auth.signInAnonymously();if(anon.error)throw anon.error}A.S.ok=true};
+A.loadBoard=async()=>{const r=await A.S.sb.from('erp_records').select('id,module,title,data,updated_at').eq('module',A.BOARD_MODULE).order('updated_at',{ascending:false}).limit(1);if(r.error)throw Error(r.error.message);if(r.data&&r.data[0])A.S.board={id:r.data[0].id,...r.data[0].data};else{A.S.board={id:A.uid(),...A.blankBoard()};await A.saveBoard('建立看板')}};
+A.saveBoard=async(action='更新看板')=>{if(!A.S.ok||!A.S.board)return;const b=A.S.board;const payload={id:b.id,module:A.BOARD_MODULE,title:b.title||A.BOARD_TITLE,data:{title:b.title,members:b.members||[],labels:b.labels||[],lists:b.lists||[]}};const r=await A.S.sb.from('erp_records').upsert(payload);if(r.error)throw Error(r.error.message);await A.S.sb.from('erp_activity').insert({id:A.uid(),module:A.BOARD_MODULE,record_id:b.id,action,note:b.title||A.BOARD_TITLE}).catch(()=>{});A.render()};
+A.toast=t=>{let el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2200)};
+})();
