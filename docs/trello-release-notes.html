@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trello Pro Mode Release Notes</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f8fafc;color:#0f172a;line-height:1.7}
+    main{max-width:980px;margin:0 auto;padding:40px 20px 80px}
+    .hero{background:linear-gradient(135deg,#0f172a,#1d4ed8);color:#fff;border-radius:24px;padding:34px;margin-bottom:24px;box-shadow:0 18px 50px rgba(15,23,42,.18)}
+    .hero h1{margin:0 0 10px;font-size:34px}.hero p{margin:0;color:#dbeafe}
+    .card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    h2{margin:0 0 12px;font-size:22px}h3{margin:20px 0 8px}.tag{display:inline-block;background:#e0f2fe;color:#075985;border-radius:999px;padding:2px 10px;font-size:13px;margin-right:6px}
+    ul{padding-left:22px}.warn{background:#fff7ed;border-color:#fed7aa}.ok{background:#f0fdf4;border-color:#bbf7d0}.muted{color:#64748b}.links a{display:inline-block;margin:8px 8px 0 0;padding:8px 12px;border-radius:10px;background:#0f172a;color:white;text-decoration:none}
+    code{background:#f1f5f9;border-radius:6px;padding:2px 6px}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Project ERP Trello Pro Mode</h1>
+    <p>Release notes for the GitHub Pages + Supabase Trello-like project management system.</p>
+  </section>
+
+  <section class="card ok">
+    <h2>Current production channel</h2>
+    <p><span class="tag">pro-10</span><span class="tag">GitHub Pages</span><span class="tag">Supabase</span></p>
+    <p class="links"><a href="./trello-live.html?v=20260624-pro-10">Open Trello Pro Mode</a><a href="./production-checklist.md">Production checklist</a><a href="./common-errors.md">Common errors</a></p>
+  </section>
+
+  <section class="card">
+    <h2>Release train</h2>
+    <h3>pro-10 — Strict access dry-run</h3>
+    <ul>
+      <li>Added strict access dry-run panel.</li>
+      <li>Added dry-run JSON export.</li>
+      <li>Checks board owners, workspace members, inactive invites, unknown roles, current user read/write impact, and card assignment risks.</li>
+      <li>No access lock is applied in this release.</li>
+    </ul>
+    <h3>pro-9 — Invitation acceptance</h3>
+    <ul>
+      <li>Added invitation link generation and acceptance flow.</li>
+      <li>Added access review dashboard.</li>
+      <li>Added strict-login migration guide.</li>
+    </ul>
+    <h3>pro-8 — Auth bridge</h3>
+    <ul>
+      <li>Added Email signup/login, Google login button, logout, and account status panel.</li>
+      <li>Added login profile sync and reminder worker draft.</li>
+      <li>Anonymous compatibility remains enabled for safe migration.</li>
+    </ul>
+    <h3>pro-7 — Workspace foundation</h3>
+    <ul>
+      <li>Added workspace, workspace member, board member, and due notification tables.</li>
+      <li>Added workspace settings drawer and role UI.</li>
+      <li>Added ERP task sync status panel.</li>
+    </ul>
+    <h3>pro-6 — Interaction polish</h3>
+    <ul>
+      <li>Improved card sorting, cross-list drop position, quick card creation, and list archive/restore behavior.</li>
+    </ul>
+    <h3>pro-5 — Data model hardening</h3>
+    <ul>
+      <li>Added board schema version, normalization, activity shape, and save queue.</li>
+    </ul>
+  </section>
+
+  <section class="card warn">
+    <h2>Strict access status</h2>
+    <p>Strict workspace-only access is not enabled yet. The current release only provides dry-run reporting. Do not apply strict production migration until every active board has at least one owner, all active members can sign in, and dry-run warnings are clean.</p>
+  </section>
+
+  <section class="card">
+    <h2>SQL order</h2>
+    <ol>
+      <li><code>supabase/full-suite-schema.sql</code></li>
+      <li><code>supabase/trello-storage.sql</code></li>
+      <li><code>supabase/trello-workspace-schema.sql</code></li>
+      <li><code>supabase/trello-auth-schema.sql</code></li>
+      <li>Strict access migration only after dry-run is clean.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Rollback rule</h2>
+    <p>If a strict access migration is applied later and users lose access unexpectedly, run the rollback SQL draft under <code>supabase/trello-strict-access-rollback.sql</code>, then reopen the Trello page with a new cache-busting query string.</p>
+  </section>
+
+  <p class="muted">Last updated for pro-10.</p>
+</main>
+</body>
+</html>
