@@ -116,23 +116,34 @@
 ## Phase 12 — Bigger Trello gaps to close next
 
 - [x] Add richer card detail layout: sidebar actions, activity tabs, attachment preview, checklist composer, comment editor.
-- [ ] Add board templates and project presets.
+- [x] Add board templates and project presets.
 - [x] Add timeline view / Gantt-lite view.
 - [x] Add dashboard analytics: overdue count, workload by member, completed cards, cycle time baseline.
 - [x] Add global inbox: assigned to me, due soon, recently updated.
 - [x] Add advanced filters: no member, overdue, has attachments, no due date, label combinations baseline.
 - [x] Add Power-Up center for ERP modules: customers, quotations, invoices, costs, calendar.
-- [ ] Add import/export compatible with Trello JSON where possible.
+- [x] Add import/export compatible with Trello JSON baseline.
 - [ ] Add strict access production migration only after dry-run reports are clean.
 - [x] Add Phase 12 QA guide.
 
 ## Phase 13 — Next Trello parity queue
 
-- [ ] Add board templates and project presets with one-click board creation.
-- [ ] Add Trello JSON import wizard.
-- [ ] Add card dependency links and true Gantt dependency lines.
-- [ ] Add conflict resolution UI for simultaneous edits.
+- [x] Add board templates and project presets with one-click board creation.
+- [x] Add Trello JSON import wizard.
+- [x] Add card dependency links and true Gantt dependency foundation.
+- [x] Add conflict resolution UI for simultaneous edits baseline.
 - [ ] Add mentions and assigned-to-me based on authenticated profiles.
 - [ ] Add Supabase-first notifications after strict auth is live.
 - [ ] Add Playwright browser QA automation.
 - [ ] Add production smoke test into CI.
+- [x] Add Phase 13 QA guide.
+
+## Phase 14 — Next queue
+
+- [ ] Add mentions and authenticated profile based assignment.
+- [ ] Add comments with @mention parsing and notification creation.
+- [ ] Add deeper Trello JSON import: checklists, comments, attachments, custom fields.
+- [ ] Add true Gantt date dependency calculation.
+- [ ] Add board template gallery thumbnails and preview mode.
+- [ ] Add Playwright browser QA automation.
+- [ ] Add release smoke test into CI.
