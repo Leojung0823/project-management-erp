@@ -15,7 +15,7 @@
 - [x] Add `scripts/check-static-site.mjs` to verify every local CSS and JS reference in `docs/*.html` exists.
 - [x] Add `npm run test:static` to package.json.
 - [x] Create `docs/trello-qa-checklist.md` for manual QA.
-- [ ] Run syntax checks for `docs/trello-main.js`, `docs/trello-extra.js`, and `docs/trello-power.js`.
+- [x] Run syntax checks for `docs/trello-main.js`, `docs/trello-extra.js`, and `docs/trello-power.js`.
 
 ## Phase 1 — Data model hardening
 
