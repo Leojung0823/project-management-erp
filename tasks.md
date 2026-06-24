@@ -40,6 +40,15 @@
 
 ## Phase 4 — Production readiness
 
-- [ ] Confirm SQL files are idempotent or document exceptions.
-- [ ] Update README with Trello live URL, SQL order, Storage SQL, and common errors.
-- [ ] Final QA: GitHub Pages Trello URL opens, connects to Supabase, creates cards, edits modal data, exports data, and syncs ERP tasks.
+- [x] Confirm SQL files are idempotent or document exceptions.
+- [x] Update README with Trello live URL, SQL order, Storage SQL, and common errors.
+- [x] Final QA: GitHub Pages Trello URL opens, connects to Supabase, creates cards, edits modal data, exports data, and syncs ERP tasks.
+
+## Phase 5 — Next implementation queue
+
+- [ ] Implement real workspace tables and member roles.
+- [ ] Replace front-end-only permission checks with Supabase RLS policies.
+- [ ] Add invite flow for workspace members.
+- [ ] Add scheduled due-date notification backend.
+- [ ] Add full ERP task sync status panel.
+- [ ] Add production regression test checklist for every release.
