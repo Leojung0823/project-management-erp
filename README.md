@@ -16,6 +16,49 @@
 - Supabase 雲端同步：使用 Supabase Auth 匿名登入與 RLS 做資料隔離
 - GitHub Pages：目前使用 `main / docs` 發布靜態版本
 
+## Trello 模式
+
+Trello-like 看板入口：
+
+```text
+https://leojung0823.github.io/project-management-erp/trello-live.html
+```
+
+如果 GitHub Pages 快取未更新，可以使用：
+
+```text
+https://leojung0823.github.io/project-management-erp/trello-live.html?v=999999
+```
+
+Trello 模式目前支援：
+
+- 多看板
+- 列表
+- 卡片
+- 拖拉
+- 卡片詳情
+- 標籤
+- 成員
+- 檢查清單
+- 留言
+- 封存
+- 附件規劃
+- 匯出
+- ERP 任務同步規劃
+
+## Production 文件
+
+```text
+docs/production-checklist.md
+docs/common-errors.md
+docs/trello-dev-notes.md
+docs/trello-qa-checklist.md
+docs/trello-storage-qa.md
+docs/trello-permission-plan.md
+docs/notification-plan.md
+docs/trello-erp-sync.md
+```
+
 ## 線上使用
 
 GitHub Pages 設定：
@@ -53,6 +96,21 @@ docs/supabase-setup.md
 4. 在線上頁面填 Project URL 與 anon / publishable key
 
 目前 MVP 使用匿名登入。正式多人 ERP 下一步要改成 Email / Google 登入、公司 workspace 與角色權限。
+
+## Trello SQL 補充
+
+建議依序執行：
+
+```text
+supabase/schema.sql
+supabase/full-suite-schema.sql
+supabase/full-suite-enterprise-schema.sql
+supabase/full-suite-reporting-views.sql
+supabase/full-suite-v3-hotfix.sql
+supabase/trello-storage.sql
+```
+
+`supabase/full-suite-schema.sql` 與 `supabase/trello-storage.sql` 已調整為可重複執行版本。
 
 ## 本機執行
 
