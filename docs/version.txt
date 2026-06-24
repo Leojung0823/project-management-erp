@@ -1,2 +1,3 @@
-supabase-setup-2026-06-24-2
-If this file is visible on GitHub Pages, the /docs deployment has updated.
+supabase-setup-2026-06-24-3
+GitHub Pages source: main / docs
+Actions Pages workflow disabled.
