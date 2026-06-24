@@ -100,11 +100,27 @@
 - [x] Add richer card preview badges for checklist progress, labels, cover, attachments, and linked ERP task status.
 - [x] Add mobile bottom action sheet for card/list menus.
 
-## Phase 11 — Next implementation queue
+## Phase 11 — Realtime / Automation / Notification Center
 
-- [ ] Add Supabase Realtime board updates.
-- [ ] Add Butler-lite automation rules.
-- [ ] Add formal notification center.
-- [ ] Add strict access production migration only after dry-run reports are clean.
+- [x] Add Supabase Realtime board updates.
+- [x] Add Butler-lite automation rules.
+- [x] Add formal notification center.
+- [x] Add due-date scan and overdue card notification flow.
+- [x] Add automation and notification SQL foundation.
+- [x] Add Phase 11 QA guide.
+- [ ] Move notifications from localStorage-first to Supabase-first when strict auth is live.
+- [ ] Add conflict resolution UI for simultaneous card edits.
 - [ ] Add browser-based QA automation.
 - [ ] Add release smoke checklist into CI.
+
+## Phase 12 — Bigger Trello gaps to close next
+
+- [ ] Add richer card detail layout: sidebar actions, activity tabs, attachment preview, checklist composer, comment editor.
+- [ ] Add board templates and project presets.
+- [ ] Add timeline view / Gantt-lite view.
+- [ ] Add dashboard analytics: overdue count, workload by member, completed cards, cycle time.
+- [ ] Add global inbox: assigned to me, mentioned me, due soon, recently updated.
+- [ ] Add advanced filters: no member, overdue, has attachments, no due date, label combinations.
+- [ ] Add Power-Up center for ERP modules: customers, quotations, invoices, costs, calendar.
+- [ ] Add import/export compatible with Trello JSON where possible.
+- [ ] Add strict access production migration only after dry-run reports are clean.
