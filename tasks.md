@@ -78,11 +78,17 @@
 - [x] Add dry-run export for board access warnings.
 - [x] Add dry-run guide document.
 - [ ] Add production migration SQL for workspace-scoped board access.
-- [ ] Add release notes page for Trello pro mode.
+- [x] Add release notes page for Trello pro mode.
 
-## Phase 9 — Next implementation queue
+## Phase 9 — Release notes and rollback safety
 
 - [ ] Add production migration SQL after dry-run reports are clean.
-- [ ] Add rollback SQL for access migration.
-- [ ] Add release notes page for Trello pro mode.
+- [x] Add rollback SQL for access migration.
+- [x] Add release notes page for Trello pro mode.
 - [ ] Add browser-based QA automation.
+
+## Phase 10 — Next implementation queue
+
+- [ ] Add strict access production migration only after dry-run reports are clean.
+- [ ] Add browser-based QA automation.
+- [ ] Add release smoke checklist into CI.
