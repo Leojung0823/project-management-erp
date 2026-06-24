@@ -1,0 +1,2 @@
+supabase-setup-2026-06-24-2
+If this file is visible on GitHub Pages, the /docs deployment has updated.
