@@ -53,11 +53,20 @@
 - [x] Add full ERP task sync status panel.
 - [x] Add production regression test checklist panel for every release.
 
-## Phase 6 — Next implementation queue
+## Phase 6 — Auth bridge, reminder worker draft, and smoke test
 
-- [ ] Upgrade from anonymous sign-in to real Email / Google login.
-- [ ] Connect workspace tables to real authenticated users and email-based invitations.
-- [ ] Enforce workspace-level board access on `erp_records` after real login is live.
-- [ ] Deploy scheduled due-date notification job.
-- [ ] Add Supabase Storage attachment delete and permission checks.
-- [ ] Add automated browser smoke test for `docs/trello-live.html`.
+- [x] Add Email and Google login panel while retaining anonymous fallback for backward compatibility.
+- [x] Add account status panel and profile sync to workspace data.
+- [x] Add `supabase/trello-auth-schema.sql` safe auth foundation draft.
+- [x] Add deployable due-date reminder Edge Function draft. Deployment in Supabase is still a manual production step.
+- [x] Add Supabase Storage attachment delete and role-based delete checks.
+- [x] Add automated static smoke test for `docs/trello-live.html` extension loading.
+- [ ] Enforce workspace-level board access on `erp_records` after real login is fully live.
+
+## Phase 7 — Next implementation queue
+
+- [ ] Upgrade `erp_records` access model from compatibility mode to workspace-scoped mode.
+- [ ] Add real invitation acceptance flow from email link.
+- [ ] Add admin dashboard for user access review.
+- [ ] Add browser-based QA automation with Playwright or equivalent.
+- [ ] Add production migration guide for switching from anonymous compatibility mode to strict login mode.
