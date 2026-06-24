@@ -33,10 +33,10 @@
 
 ## Phase 3 — Power features
 
-- [ ] Complete attachment upload QA notes for Supabase Storage bucket `trello-attachments`.
-- [ ] Add production-ready permission plan for owner/admin/member/viewer.
-- [ ] Add notification plan for due-date reminders.
-- [ ] Add ERP sync mapping documentation.
+- [x] Complete attachment upload QA notes for Supabase Storage bucket `trello-attachments`.
+- [x] Add production-ready permission plan for owner/admin/member/viewer.
+- [x] Add notification plan for due-date reminders.
+- [x] Add ERP sync mapping documentation.
 
 ## Phase 4 — Production readiness
 
