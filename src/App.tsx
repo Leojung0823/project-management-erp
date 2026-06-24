@@ -1,4 +1,5 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
+import { fetchCloudStore, hasSupabaseEnv, isEmptyStore, replaceCloudStore, type SyncMode } from './lib/erpRepository';
 import { seedData } from './seed';
 import type { AppStore, Client, Invoice, InvoiceStatus, Priority, Project, ProjectStatus, Task, TaskStatus } from './types';
 
@@ -57,15 +58,63 @@ function isOverdue(date: string) {
   return new Date(date).getTime() < new Date().setHours(0, 0, 0, 0);
 }
 
+function errorMessage(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [store, setStore] = useState<AppStore>(() => loadStore());
   const [projectFilter, setProjectFilter] = useState<ProjectStatus | 'all'>('all');
   const [taskFilter, setTaskFilter] = useState<TaskStatus | 'all'>('all');
+  const [syncMode, setSyncMode] = useState<SyncMode>('local');
+  const [syncMessage, setSyncMessage] = useState(hasSupabaseEnv ? '正在連線 Supabase...' : '本機模式：尚未設定 Supabase');
+
+  useEffect(() => {
+    if (!hasSupabaseEnv) return;
+
+    let alive = true;
+
+    async function bootCloud() {
+      try {
+        setSyncMessage('正在登入 Supabase 並讀取雲端資料...');
+        const localStore = loadStore();
+        const cloudStore = await fetchCloudStore();
+        const nextStore = isEmptyStore(cloudStore) ? localStore : cloudStore;
+
+        if (isEmptyStore(cloudStore)) {
+          await replaceCloudStore(localStore);
+        }
+
+        if (!alive) return;
+        setStore(nextStore);
+        saveStore(nextStore);
+        setSyncMode('cloud');
+        setSyncMessage(isEmptyStore(cloudStore) ? 'Supabase 已連線，已把本機資料同步到雲端' : 'Supabase 已連線，正在使用雲端資料');
+      } catch (error) {
+        if (!alive) return;
+        setSyncMode('local');
+        setSyncMessage(`Supabase 連線失敗，暫時使用本機模式：${errorMessage(error)}`);
+      }
+    }
+
+    void bootCloud();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const commit = (next: AppStore) => {
     setStore(next);
     saveStore(next);
+
+    if (syncMode !== 'cloud') return;
+
+    setSyncMessage('正在同步到 Supabase...');
+    replaceCloudStore(next)
+      .then(() => setSyncMessage(`Supabase 已同步：${new Intl.DateTimeFormat('zh-TW', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date())}`))
+      .catch((error) => setSyncMessage(`Supabase 同步失敗，本機仍已保存：${errorMessage(error)}`));
   };
 
   const clientName = (clientId: string) => store.clients.find((client) => client.id === clientId)?.name ?? '未指定客戶';
@@ -184,6 +233,10 @@ export default function App() {
             </button>
           ))}
         </nav>
+        <section className={`sync-card ${syncMode === 'cloud' ? 'cloud' : ''}`}>
+          <strong>{syncMode === 'cloud' ? '雲端同步模式' : '本機模式'}</strong>
+          <span>{syncMessage}</span>
+        </section>
         <button className="ghost" onClick={() => commit(seedData)}>重置示範資料</button>
       </aside>
 
