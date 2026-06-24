@@ -19,10 +19,10 @@
 
 ## Phase 1 — Data model hardening
 
-- [ ] Add schemaVersion to Trello board data.
-- [ ] Add normalizeBoard and normalizeCard notes or implementation.
-- [ ] Add save queue or debounce plan to avoid overlapping Supabase writes.
-- [ ] Standardize board activity and card activity shape.
+- [x] Add schemaVersion to Trello board data.
+- [x] Add normalizeBoard and normalizeCard notes or implementation.
+- [x] Add save queue or debounce plan to avoid overlapping Supabase writes.
+- [x] Standardize board activity and card activity shape.
 
 ## Phase 2 — Trello interaction polish
 
