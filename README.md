@@ -1,6 +1,9 @@
 # Project Management ERP｜專案管理 ERP 系統
 
-這是一套可以直接使用的專案管理 ERP MVP。第一版先用 React + Vite + localStorage，資料會存在使用者自己的瀏覽器，不需要後端就能先開始管理案子。
+這是一套可以直接使用的專案管理 ERP MVP。第一版已支援兩種模式：
+
+1. 本機模式：資料存在使用者自己的瀏覽器 `localStorage`。
+2. Supabase 雲端模式：資料同步到 Supabase PostgreSQL，並用 RLS 依使用者隔離資料。
 
 ## 目前可用功能
 
@@ -9,8 +12,47 @@
 - 任務控管：新增任務、看板分類、調整任務狀態、查看負責人與到期日
 - 客戶資料庫：新增客戶、記錄窗口、電話、Email、產業別
 - 財務帳款：新增請款、調整草稿/已送出/已付款/逾期狀態
-- 本機資料持久化：目前用 `localStorage`，重新整理頁面不會消失
-- GitHub Pages：已加入部署 workflow，可用 Actions 部署靜態網站
+- 本機資料持久化：未設定 Supabase 時使用 `localStorage`
+- Supabase 雲端同步：有 Supabase 設定時自動登入匿名工作區並同步資料
+- GitHub Pages：目前可用 `main / docs` 發布靜態版本
+
+## 線上使用
+
+目前 GitHub Pages 建議設定：
+
+```text
+Settings → Pages → Deploy from a branch → main / docs
+```
+
+網址：
+
+```text
+https://leojung0823.github.io/project-management-erp/
+```
+
+線上頁面會出現 Supabase 連線區，填入：
+
+- Supabase Project URL
+- anon / publishable key
+
+即可連線並同步。
+
+## Supabase 設定
+
+完整設定請看：
+
+```text
+docs/supabase-setup.md
+```
+
+必要步驟：
+
+1. 建立 Supabase project
+2. 到 `Authentication` 啟用 `Anonymous Sign-Ins`
+3. 到 `SQL Editor` 執行 `supabase/schema.sql`
+4. 在線上頁面填 Project URL 與 anon / publishable key
+
+目前 MVP 使用匿名登入。Supabase 官方文件說明，`signInAnonymously()` 會建立匿名使用者，匿名使用者會使用 authenticated role，因此可以搭配 RLS 做資料隔離。正式多人版建議升級成 Email / Google 登入。
 
 ## 本機執行
 
@@ -25,6 +67,23 @@ npm run dev
 http://localhost:5173
 ```
 
+## 本機 React 版接 Supabase
+
+複製 `.env.example` 成 `.env.local`：
+
+```bash
+cp .env.example .env.local
+```
+
+填入：
+
+```env
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-or-publishable-key
+```
+
+如果沒有填環境變數，React 版會保留本機模式，不會壞掉。
+
 ## 建置正式版本
 
 ```bash
@@ -32,25 +91,17 @@ npm run build
 npm run preview
 ```
 
-## GitHub Pages 部署
-
-此 repo 已加入 `.github/workflows/deploy.yml`。推送到 `main` 後，GitHub Actions 會自動 build 並部署。
-
-若第一次部署沒有網址，請到 GitHub repo：
-
-`Settings` → `Pages` → `Build and deployment` → `Source` 選 `GitHub Actions`
-
-之後網址通常會是：
-
-```text
-https://leojung0823.github.io/project-management-erp/
-```
-
 ## 資料注意事項
 
-目前資料存在瀏覽器 localStorage，適合單人或內部先試用。換電腦、換瀏覽器、清除瀏覽器資料時，資料不會自動同步。
+目前雲端模式使用匿名登入，所以資料會跟目前瀏覽器 session 綁定。清除瀏覽器資料或換裝置時，會變成另一個匿名使用者。
 
-正式多人使用時，下一步要接 Supabase / PostgreSQL，並加上登入、角色權限、RLS、檔案上傳與通知。
+正式多人 ERP 下一步要改成：
+
+- Email / Google 登入
+- 公司 workspace / organization
+- 使用者角色：老闆、管理員、專案經理、財務、員工、客戶檢視
+- 更細的 RLS policy
+- 檔案上傳、留言、通知、審核流
 
 ## 後續正式 ERP 模組
 
