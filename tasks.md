@@ -3,11 +3,11 @@
 ## Agent Loop Rules
 
 - [x] Create repo task checklist.
-- [ ] Work from the first unfinished task only.
-- [ ] After each task, run static checks when possible.
-- [ ] Commit after each finished task and mark it `[x]`.
-- [ ] Continue without asking unless the change deletes production data, needs a paid service, resets Supabase, or can break the production Pages URL.
-- [ ] ERP business data must stay in Supabase. Browser storage is only for UI preferences and public client settings.
+- [x] Work from the first unfinished task only.
+- [x] After each task, run static checks when possible.
+- [x] Commit after each finished task and mark it `[x]`.
+- [x] Continue without asking unless the change deletes production data, needs a paid service, resets Supabase, or can break the production Pages URL.
+- [x] ERP business data must stay in Supabase. Browser storage is only for UI preferences and public client settings.
 
 ## Phase 0 — Stabilize current Trello mode
 
@@ -26,10 +26,10 @@
 
 ## Phase 2 — Trello interaction polish
 
-- [ ] Improve card sorting within the same list.
-- [ ] Improve cross-list drop position behavior.
-- [ ] Improve list sorting and archive behavior.
-- [ ] Add keyboard-friendly quick card creation.
+- [x] Improve card sorting within the same list.
+- [x] Improve cross-list drop position behavior.
+- [x] Improve list sorting and archive behavior.
+- [x] Add keyboard-friendly quick card creation.
 
 ## Phase 3 — Power features
 
