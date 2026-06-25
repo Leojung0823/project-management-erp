@@ -1,0 +1,12 @@
+(()=>{
+const V='20260624-pro-17-hotfix';
+const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
+function init(){installObserver();patchExisting();}
+function installObserver(){new MutationObserver(()=>patchExisting()).observe(document.body,{childList:true,subtree:true});}
+function patchExisting(){patchModalActions();patchAdvancedPanels();patchMissingButtonLabels();}
+function patchModalActions(){const modal=q('.modal-body');if(!modal||modal.dataset.t15Patched)return;modal.dataset.t15Patched='1';modal.insertAdjacentHTML('afterbegin',`<div class="t15-form-note">操作提示：儲存 / 新增 / 送出按鈕已固定顯示；如果內容很多，請往區塊底部或右下角查看。</div>`);const actionButtons=qa('.modal-body button,.modal-body .btn').filter(b=>!b.closest('.modal-head'));if(actionButtons.length){const footer=document.createElement('div');footer.className='t15-sticky-actions';footer.innerHTML='<button type="button" class="btn primary" data-t15-scroll-actions>跳到送出按鈕</button><button type="button" class="btn" data-t15-close-note>我知道了</button>';modal.appendChild(footer);footer.querySelector('[data-t15-scroll-actions]').onclick=()=>{const last=actionButtons[actionButtons.length-1];last?.scrollIntoView({behavior:'smooth',block:'center'});last?.focus?.()};footer.querySelector('[data-t15-close-note]').onclick=()=>footer.remove();}
+}
+function patchAdvancedPanels(){qa('.t12-panel,.t13-panel,.t14-panel').forEach(panel=>{if(panel.dataset.t15Patched)return;panel.dataset.t15Patched='1';const body=panel.querySelector('.t12-body,.t13-body,.t14-body');if(!body)return;const btns=[...body.querySelectorAll('button')].filter(b=>!b.closest('.t12-head,.t13-head,.t14-head'));if(!btns.length)return;const floating=document.createElement('button');floating.type='button';floating.className='t15-floating-save';floating.textContent='跳到主要送出按鈕';floating.onclick=()=>{const target=btns.find(b=>/儲存|新增|送出|匯入|指派|套用|建立/.test(b.textContent||''))||btns[btns.length-1];target.scrollIntoView({behavior:'smooth',block:'center'});target.focus?.()};panel.appendChild(floating);body.insertAdjacentHTML('beforeend','<div class="t15-mobile-spacer"></div>');});}
+function patchMissingButtonLabels(){qa('button').forEach(btn=>{const txt=(btn.textContent||'').trim();if(txt)return;const id=btn.id||btn.dataset?.action||'';if(/save|submit/i.test(id))btn.textContent='儲存';else if(/add/i.test(id))btn.textContent='新增';else if(/close/i.test(id))btn.textContent='關閉';});}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(init,500));
+})();
