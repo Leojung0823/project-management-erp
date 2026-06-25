@@ -149,8 +149,12 @@
 - [x] Add release smoke test into CI baseline script.
 - [x] Add Phase 14 QA guide.
 
-## Phase 15 — Next queue
+## Phase 15 — Form UX hotfix and next queue
 
+- [x] Fix hidden card submit/save/add buttons in modal and advanced panels.
+- [x] Add sticky action helpers for card forms.
+- [x] Add mobile bottom spacing so submit buttons are not hidden.
+- [x] Add smoke coverage for Phase 15 hotfix files.
 - [ ] Move @mention notifications to Supabase-first after strict auth is live.
 - [ ] Add real profile user_id mapping for members and assignment.
 - [ ] Add deeper Trello import for custom field definitions and pluginData.
