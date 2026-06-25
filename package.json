@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "test:static": "node scripts/check-static-site.mjs",
-    "test:smoke": "node scripts/trello-smoke-test.mjs"
+    "test:smoke": "node scripts/trello-smoke-test.mjs",
+    "test:trello-phases": "node scripts/trello-phase-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "latest",
