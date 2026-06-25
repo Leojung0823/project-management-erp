@@ -13,9 +13,11 @@ const required = [
   'trello-phase12.js',
   'trello-phase13.js',
   'trello-phase14.js',
+  'trello-phase15-hotfix.js',
   'trello-phase12.css',
   'trello-phase13.css',
-  'trello-phase14.css'
+  'trello-phase14.css',
+  'trello-phase15-hotfix.css'
 ];
 
 const missingRefs = required.filter(file => !live.includes(file));
@@ -36,4 +38,12 @@ if (missingPhase14.length) {
   process.exit(1);
 }
 
-console.log('Trello phase smoke passed: live HTML loads phase 12/13/14 and phase 14 hooks exist.');
+const hotfix = fs.readFileSync(path.join(docs, 'trello-phase15-hotfix.js'), 'utf8');
+const hotfixChecks = ['patchModalActions', 'patchAdvancedPanels', 't15-floating-save'];
+const missingHotfix = hotfixChecks.filter(token => !hotfix.includes(token));
+if (missingHotfix.length) {
+  console.error('Phase 15 hotfix hooks missing:', missingHotfix.join(', '));
+  process.exit(1);
+}
+
+console.log('Trello phase smoke passed: live HTML loads phase 12/13/14/15 and feature hooks exist.');
