@@ -132,18 +132,29 @@
 - [x] Add Trello JSON import wizard.
 - [x] Add card dependency links and true Gantt dependency foundation.
 - [x] Add conflict resolution UI for simultaneous edits baseline.
-- [ ] Add mentions and assigned-to-me based on authenticated profiles.
+- [x] Add mentions and assigned-to-me based on authenticated profiles baseline.
 - [ ] Add Supabase-first notifications after strict auth is live.
-- [ ] Add Playwright browser QA automation.
-- [ ] Add production smoke test into CI.
+- [x] Add Playwright / browser smoke baseline.
+- [x] Add production smoke test into CI baseline.
 - [x] Add Phase 13 QA guide.
 
-## Phase 14 — Next queue
+## Phase 14 — Mentions, assignment, deep import, gantt suggestions
 
-- [ ] Add mentions and authenticated profile based assignment.
-- [ ] Add comments with @mention parsing and notification creation.
-- [ ] Add deeper Trello JSON import: checklists, comments, attachments, custom fields.
-- [ ] Add true Gantt date dependency calculation.
-- [ ] Add board template gallery thumbnails and preview mode.
-- [ ] Add Playwright browser QA automation.
-- [ ] Add release smoke test into CI.
+- [x] Add mentions and authenticated profile based assignment baseline.
+- [x] Add comments with @mention parsing and notification creation.
+- [x] Add deeper Trello JSON import: checklists, comments, attachments, custom fields baseline.
+- [x] Add true Gantt date dependency calculation baseline.
+- [x] Add board template gallery thumbnails and preview mode baseline.
+- [x] Add Playwright/browser smoke baseline script.
+- [x] Add release smoke test into CI baseline script.
+- [x] Add Phase 14 QA guide.
+
+## Phase 15 — Next queue
+
+- [ ] Move @mention notifications to Supabase-first after strict auth is live.
+- [ ] Add real profile user_id mapping for members and assignment.
+- [ ] Add deeper Trello import for custom field definitions and pluginData.
+- [ ] Add real Gantt dependency enforcement and warning before saving impossible dates.
+- [ ] Add board template gallery thumbnails with preview images.
+- [ ] Add Playwright proper browser tests if package/dependency installation is approved.
+- [ ] Add GitHub Actions workflow for smoke tests.
