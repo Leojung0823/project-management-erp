@@ -14,10 +14,12 @@ const required = [
   'trello-phase13.js',
   'trello-phase14.js',
   'trello-phase15-hotfix.js',
+  'trello-phase16.js',
   'trello-phase12.css',
   'trello-phase13.css',
   'trello-phase14.css',
-  'trello-phase15-hotfix.css'
+  'trello-phase15-hotfix.css',
+  'trello-phase16.css'
 ];
 
 const missingRefs = required.filter(file => !live.includes(file));
@@ -46,4 +48,4 @@ if (missingHotfix.length) {
   process.exit(1);
 }
 
-console.log('Trello phase smoke passed: live HTML loads phase 12/13/14/15 and feature hooks exist.');
+console.log('Trello phase smoke passed: live HTML loads phase 12/13/14/15/16 and key hooks exist.');
