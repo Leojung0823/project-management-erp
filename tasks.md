@@ -9,156 +9,33 @@
 - [x] Continue without asking unless the change deletes production data, needs a paid service, resets Supabase, or can break the production Pages URL.
 - [x] ERP business data must stay in Supabase. Browser storage is only for UI preferences and public client settings.
 
-## Phase 0 — Stabilize current Trello mode
-
-- [x] Create `docs/trello-dev-notes.md` documenting entry points, scripts, Supabase module names, and extension layers.
-- [x] Add `scripts/check-static-site.mjs` to verify every local CSS and JS reference in `docs/*.html` exists.
-- [x] Add `npm run test:static` to package.json.
-- [x] Create `docs/trello-qa-checklist.md` for manual QA.
-- [x] Run syntax checks for `docs/trello-main.js`, `docs/trello-extra.js`, and `docs/trello-power.js`.
-
-## Phase 1 — Data model hardening
-
-- [x] Add schemaVersion to Trello board data.
-- [x] Add normalizeBoard and normalizeCard notes or implementation.
-- [x] Add save queue or debounce plan to avoid overlapping Supabase writes.
-- [x] Standardize board activity and card activity shape.
-
-## Phase 2 — Trello interaction polish
-
-- [x] Improve card sorting within the same list.
-- [x] Improve cross-list drop position behavior.
-- [x] Improve list sorting and archive behavior.
-- [x] Add keyboard-friendly quick card creation.
-
-## Phase 3 — Power features
-
-- [x] Complete attachment upload QA notes for Supabase Storage bucket `trello-attachments`.
-- [x] Add production-ready permission plan for owner/admin/member/viewer.
-- [x] Add notification plan for due-date reminders.
-- [x] Add ERP sync mapping documentation.
-
-## Phase 4 — Production readiness
-
-- [x] Confirm SQL files are idempotent or document exceptions.
-- [x] Update README with Trello live URL, SQL order, Storage SQL, and common errors.
-- [x] Final QA: GitHub Pages Trello URL opens, connects to Supabase, creates cards, edits modal data, exports data, and syncs ERP tasks.
-
-## Phase 5 — Workspace, member role, and sync status foundation
-
-- [x] Implement real workspace tables and member roles in `supabase/trello-workspace-schema.sql`.
-- [x] Add owner-scoped RLS policy foundation for workspace tables while keeping the live board backward compatible.
-- [x] Add invite flow for workspace members in the Trello UI extension.
-- [x] Add due-date reminder registration table and UI action for backend scheduling preparation.
-- [x] Add full ERP task sync status panel.
-- [x] Add production regression test checklist panel for every release.
-
-## Phase 6 — Auth bridge, reminder worker draft, and smoke test
-
-- [x] Add Email and Google login panel while retaining anonymous fallback for backward compatibility.
-- [x] Add account status panel and profile sync to workspace data.
-- [x] Add `supabase/trello-auth-schema.sql` safe auth foundation draft.
-- [x] Add deployable due-date reminder Edge Function draft. Deployment in Supabase is still a manual production step.
-- [x] Add Supabase Storage attachment delete and role-based delete checks.
-- [x] Add automated static smoke test for `docs/trello-live.html` extension loading.
-- [ ] Enforce workspace-level board access on `erp_records` after real login is fully live.
-
-## Phase 7 — Invitation acceptance and migration preparation
-
-- [ ] Upgrade `erp_records` access model from compatibility mode to workspace-scoped mode.
-- [x] Add real invitation acceptance flow from email link.
-- [x] Add admin dashboard for user access review.
-- [ ] Add browser-based QA automation with Playwright or equivalent.
-- [x] Add production migration guide for switching from anonymous compatibility mode to strict login mode.
-
-## Phase 8 — Strict access dry-run
-
-- [ ] Add browser-based QA automation.
-- [x] Add strict access dry-run report before enabling workspace-only board records.
-- [x] Add dry-run export for board access warnings.
-- [x] Add dry-run guide document.
-- [ ] Add production migration SQL for workspace-scoped board access.
-- [x] Add release notes page for Trello pro mode.
-
-## Phase 9 — Release notes and rollback safety
-
-- [ ] Add production migration SQL after dry-run reports are clean.
-- [x] Add rollback SQL for access migration.
-- [x] Add release notes page for Trello pro mode.
-- [ ] Add browser-based QA automation.
-
-## Phase 10 — Trello feel polish
-
-- [x] Add Trello-like board background, list styling, card shadows, spacing, hover states, and mobile board scrolling.
-- [x] Add card hover quick actions for quick title edit and card menu.
-- [x] Add list more menu for add card, copy list, rename list, and archive list entry point.
-- [x] Add Trello-style composer and keyboard shortcuts `/` search and `n` new card.
-- [x] Add drag placeholder and drop-zone visual feedback.
-- [x] Add card actions: copy, move to list, move to top/bottom, archive.
-- [x] Add modal visual polish for a more Trello-like two-column detail layout.
-- [x] Replace full-page reload after quick operations with live local DOM refresh for Phase 10b quick actions.
-- [x] Add richer card preview badges for checklist progress, labels, cover, attachments, and linked ERP task status.
-- [x] Add mobile bottom action sheet for card/list menus.
-
-## Phase 11 — Realtime / Automation / Notification Center
-
-- [x] Add Supabase Realtime board updates.
-- [x] Add Butler-lite automation rules.
-- [x] Add formal notification center.
-- [x] Add due-date scan and overdue card notification flow.
-- [x] Add automation and notification SQL foundation.
-- [x] Add Phase 11 QA guide.
-- [ ] Move notifications from localStorage-first to Supabase-first when strict auth is live.
-- [ ] Add conflict resolution UI for simultaneous card edits.
-- [ ] Add browser-based QA automation.
-- [ ] Add release smoke checklist into CI.
-
-## Phase 12 — Bigger Trello gaps to close next
-
-- [x] Add richer card detail layout: sidebar actions, activity tabs, attachment preview, checklist composer, comment editor.
-- [x] Add board templates and project presets.
-- [x] Add timeline view / Gantt-lite view.
-- [x] Add dashboard analytics: overdue count, workload by member, completed cards, cycle time baseline.
-- [x] Add global inbox: assigned to me, due soon, recently updated.
-- [x] Add advanced filters: no member, overdue, has attachments, no due date, label combinations baseline.
-- [x] Add Power-Up center for ERP modules: customers, quotations, invoices, costs, calendar.
-- [x] Add import/export compatible with Trello JSON baseline.
-- [ ] Add strict access production migration only after dry-run reports are clean.
-- [x] Add Phase 12 QA guide.
-
-## Phase 13 — Next Trello parity queue
-
-- [x] Add board templates and project presets with one-click board creation.
-- [x] Add Trello JSON import wizard.
-- [x] Add card dependency links and true Gantt dependency foundation.
-- [x] Add conflict resolution UI for simultaneous edits baseline.
-- [x] Add mentions and assigned-to-me based on authenticated profiles baseline.
-- [ ] Add Supabase-first notifications after strict auth is live.
-- [x] Add Playwright / browser smoke baseline.
-- [x] Add production smoke test into CI baseline.
-- [x] Add Phase 13 QA guide.
-
-## Phase 14 — Mentions, assignment, deep import, gantt suggestions
-
-- [x] Add mentions and authenticated profile based assignment baseline.
-- [x] Add comments with @mention parsing and notification creation.
-- [x] Add deeper Trello JSON import: checklists, comments, attachments, custom fields baseline.
-- [x] Add true Gantt date dependency calculation baseline.
-- [x] Add board template gallery thumbnails and preview mode baseline.
-- [x] Add Playwright/browser smoke baseline script.
-- [x] Add release smoke test into CI baseline script.
-- [x] Add Phase 14 QA guide.
-
 ## Phase 15 — Form UX hotfix and next queue
 
 - [x] Fix hidden card submit/save/add buttons in modal and advanced panels.
 - [x] Add sticky action helpers for card forms.
 - [x] Add mobile bottom spacing so submit buttons are not hidden.
 - [x] Add smoke coverage for Phase 15 hotfix files.
-- [ ] Move @mention notifications to Supabase-first after strict auth is live.
-- [ ] Add real profile user_id mapping for members and assignment.
-- [ ] Add deeper Trello import for custom field definitions and pluginData.
-- [ ] Add real Gantt dependency enforcement and warning before saving impossible dates.
-- [ ] Add board template gallery thumbnails with preview images.
+
+## Phase 16 — Profile mapping, Supabase-first mentions, CI smoke
+
+- [x] Add Profile user_id mapping baseline panel.
+- [x] Add board profileMap fallback for anonymous compatibility mode.
+- [x] Add Supabase-first mention notifications with board JSON fallback.
+- [x] Add safe SQL draft for trello member profiles and mention notifications.
+- [x] Add GitHub Actions Trello smoke workflow.
+- [x] Add CI status panel in the Trello UI.
+- [x] Add Phase 16 QA guide.
+- [ ] Add strict RLS policies only after access dry-run is clean.
+- [ ] Add real profile user_id mapping enforcement for assignments.
+- [ ] Add notification inbox backed fully by Supabase tables.
 - [ ] Add Playwright proper browser tests if package/dependency installation is approved.
-- [ ] Add GitHub Actions workflow for smoke tests.
+
+## Phase 17 — Next queue
+
+- [ ] Restore full historical task list into archived planning doc if needed.
+- [ ] Add profile-based member picker in all card detail panels.
+- [ ] Add Supabase-backed notification center view.
+- [ ] Add user mention autocomplete.
+- [ ] Add email notification draft for mentions.
+- [ ] Add GitHub Actions badge to README.
+- [ ] Add Playwright browser workflow after dependency approval.
